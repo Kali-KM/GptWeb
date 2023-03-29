@@ -1,0 +1,57 @@
+<!-- home.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GPT Web</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        // '실행' 버튼을 클릭하면 호출되는 함수
+        function runFunction() {
+            $.ajax({
+                url: "/run",
+                type: "POST",
+                success: function(response) {
+                    console.log(response);
+                }
+            });
+        }
+    </script>
+
+</head>
+<body style="background-color: white">
+
+    <div class="container">
+        <h1>GPTWeb - Python MOD</h1>
+        <h2>Created by Kali-KM</h2>
+		<form method="post">
+			<input type="text" id="question_input" name="question" placeholder="input question.">
+			<button type="submit" class="btn">Submit</button>
+            <button type="submit" onclick="runFunction()">Reload</button>
+		</form>
+
+        {% if question_list %}
+        {% for i in range(question_list|length -1, -1, -1) %}
+            <div class="result">
+                <h3>Question</h3>
+                <pre><code>{{ question_list[i] }}</code></pre>
+                <h3>Answer</h3>
+                <pre><code>{{ answer_list[i] }}</code></pre>
+            </div>
+        {% endfor %}
+        
+        {% endif %}
+    </div>
+</body>
+</html>
+
+<script>
+    // 질문 입력 창에서 엔터 키를 눌렀을 때 "제출" 버튼을 누르도록 합니다.
+    document.getElementById("question_input").addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {  // 엔터 키 코드는 13입니다.
+            event.preventDefault();  // 기본 동작인 줄바꿈을 막습니다.
+            document.querySelector(".btn").click();  // "제출" 버튼을 클릭합니다.
+        }
+    });
+</script>
+

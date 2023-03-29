@@ -23,8 +23,8 @@ def run_route():
     print('clear...')
     return 'success'
 
-@app.route('/', methods=['GET', 'POST'])
-def home():
+@app.route('/python', methods=['GET', 'POST'])
+def home_pyhton():
     messages.append(
         {"role": "system", "content": "You are a coding tutor bot to help user write and optimize python code."}
     )
@@ -36,8 +36,22 @@ def home():
             answer_list.append(answer)
     else:
         answer = ""
-    return render_template('home.html', question_list=question_list, answer_list=answer_list)
-    
+    return render_template('home_python.html', question_list=question_list, answer_list=answer_list)
+
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    messages.append(
+        {"role": "system", "content": "You are a helpful assistant."}
+    )
+    question = request.form.get('question')
+    if question:
+        answer = ask_chatGPT(question)        
+        if question not in question_list: 
+            question_list.append(question) 
+            answer_list.append(answer)
+    else:
+        answer = ""
+    return render_template('home.html', question_list=question_list, answer_list=answer_list)   
 
 def ask_chatGPT(prompt):
     messages.append({"role": "user", "content": prompt})
