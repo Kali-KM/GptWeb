@@ -8,7 +8,7 @@ To set up this application, you will need to run it in a virtual environment.
 
 1. Clone the repository and navigate to the project directory.
 2. In the terminal, run `python3 -m venv .venv` to create a virtual environment.
-3. Activate the virtual environment by running `source venv/bin/activate`, on windows '.\.venv\Scripts\activate.
+3. Activate the virtual environment by running `source venv/bin/activate`, on windows `.\.venv\Scripts\activate.`
 4. Install the required packages by running `pip install -r requirements.txt`.
 5. Set up your OpenAI API key in a `.env` file, which should be located in the project directory. The `.env` file should contain your API key in the following format:
 
