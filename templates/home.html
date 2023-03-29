@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GPT Q</title>
+    <title>GPT Web</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
@@ -19,9 +19,11 @@
     </script>
 
 </head>
-<body>
+<body style="background-color: white">
+
     <div class="container">
-        <h1>Question</h1>
+        <h1>GPTWeb</h1>
+        <h2>Created by Kali-KM</h2>
 		<form method="post">
 			<input type="text" id="question_input" name="question" placeholder="input question.">
 			<button type="submit" class="btn">Submit</button>
@@ -31,9 +33,9 @@
         {% if question_list %}
         {% for i in range(question_list|length -1, -1, -1) %}
             <div class="result">
-                <h1>Question</h1>
+                <h3>Question</h3>
                 <pre><code>{{ question_list[i] }}</code></pre>
-                <h1>Answer</h1>
+                <h3>Answer</h3>
                 <pre><code>{{ answer_list[i] }}</code></pre>
             </div>
         {% endfor %}
