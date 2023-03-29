@@ -1,11 +1,15 @@
 from flask import Flask, render_template, request
-import requests
-import json
-import os
+import json, os, sys
 import openai
 
 app = Flask(__name__)
-openai.api_key = "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"
+try:
+    with open('.env', 'r') as f:
+        data = f.read()
+        openai.api_key = data[15:]
+except:
+    print('After creating the .env file you should note OPENAI_API_KEY=[YOUR_KEY] .')
+    sys.exit(0)
 
 messages = []
 question_list = []
