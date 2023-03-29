@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-import json, os, sys
+import sys
 import openai
 
 app = Flask(__name__)
@@ -30,20 +30,16 @@ def home():
     )
     question = request.form.get('question')
     if question:
-        answer = ask_chatGPT(question)
-        print('\nq: ' + question + '\na: ' + answer )
-        
+        answer = ask_chatGPT(question)        
         if question not in question_list: 
             question_list.append(question) 
             answer_list.append(answer)
     else:
         answer = ""
-    print(question_list)
     return render_template('home.html', question_list=question_list, answer_list=answer_list)
     
 
 def ask_chatGPT(prompt):
-    
     messages.append({"role": "user", "content": prompt})
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -52,7 +48,6 @@ def ask_chatGPT(prompt):
     result = {"role": "assistant", "content": response["choices"][0]["message"].content}
     messages.append(result)
     return result["content"]
-
 
 if __name__ == '__main__':
     app.run(debug=True)
