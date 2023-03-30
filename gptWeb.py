@@ -15,6 +15,10 @@ messages = []
 question_list = []
 answer_list = []
 
+@app.route('/error', methods=['GET'])
+def err_page():
+    return render_template('error.html')
+
 @app.route('/run', methods=['POST'])
 def run_route():
     messages.clear()
@@ -54,14 +58,21 @@ def home():
     return render_template('home.html', question_list=question_list, answer_list=answer_list)   
 
 def ask_chatGPT(prompt):
-    messages.append({"role": "user", "content": prompt})
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=messages
-    )
-    result = {"role": "assistant", "content": response["choices"][0]["message"].content}
-    messages.append(result)
+    try:
+        messages.append({"role": "user", "content": prompt})
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=messages
+        )
+        result = {"role": "assistant", "content": response["choices"][0]["message"].content}
+        messages.append(result)
+    except openai.error.RateLimitError:
+        return render_template('error_billing.html')
+    except Exception as e:
+        print(e)
+        return render_template('error.html')
     return result["content"]
+
 
 if __name__ == '__main__':
     app.run(debug=True)
